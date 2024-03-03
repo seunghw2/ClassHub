@@ -26,5 +26,4 @@ public record LectureListDetailRes(
 	List<TagRes> tagList,
 	int lectureLikeCount
 ) {
-
 }

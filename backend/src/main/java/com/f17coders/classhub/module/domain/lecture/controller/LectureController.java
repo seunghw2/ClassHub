@@ -4,31 +4,21 @@ import com.f17coders.classhub.global.api.response.BaseResponse;
 import com.f17coders.classhub.global.exception.BaseExceptionHandler;
 import com.f17coders.classhub.global.exception.code.ErrorCode;
 import com.f17coders.classhub.global.exception.code.SuccessCode;
-import com.f17coders.classhub.module.domain.BaseEntity;
-import com.f17coders.classhub.module.domain.job.Job;
-import com.f17coders.classhub.module.domain.lecture.dto.response.LectureListDetailLectureLikeCountRes;
-import com.f17coders.classhub.module.domain.lecture.dto.response.LectureListDetailRes;
 import com.f17coders.classhub.module.domain.lecture.dto.response.LectureListJobRes;
 import com.f17coders.classhub.module.domain.lecture.dto.response.LectureListRes;
 import com.f17coders.classhub.module.domain.lecture.dto.response.LectureListTagRes;
 import com.f17coders.classhub.module.domain.lecture.dto.response.LectureReadRes;
-import com.f17coders.classhub.module.domain.lecture.repository.LectureRepository;
 import com.f17coders.classhub.module.domain.lecture.service.LectureService;
 import com.f17coders.classhub.module.domain.lectureBuy.repository.LectureBuyRepository;
 import com.f17coders.classhub.module.domain.lectureBuy.service.LectureBuyService;
 import com.f17coders.classhub.module.domain.lectureLike.service.LectureLikeService;
 import com.f17coders.classhub.module.domain.member.Member;
 import com.f17coders.classhub.module.domain.member.repository.MemberRepository;
-import com.f17coders.classhub.module.domain.memberTag.MemberTag;
-import com.f17coders.classhub.module.domain.memberTag.repository.MemberTagRepository;
-import com.f17coders.classhub.module.domain.study.dto.response.StudyListRes;
 import com.f17coders.classhub.module.security.dto.MemberSecurityDTO;
-import com.querydsl.core.Tuple;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +28,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,7 +54,7 @@ public class LectureController {
 		return BaseResponse.success(SuccessCode.SELECT_SUCCESS, lectureReadRes);
 	}
 
-	@Operation(summary = "강의 목록 조회 - 더미 데이터 구현")
+	@Operation(summary = "강의 목록 조회")
 	@GetMapping("/v0")
 	public ResponseEntity<BaseResponse<LectureListRes>> getLectureList(
 		@RequestParam(value = "category", required = false) Integer categoryId,
@@ -76,9 +65,8 @@ public class LectureController {
 		@RequestParam(value = "order", required = false) String order,
 		Pageable pageable
 	) throws IOException {
-		LectureListRes lectureListRes = lectureService.getLecturesList(categoryId, tags, keyword,
-			level,
-			site, order, pageable);
+		LectureListRes lectureListRes = lectureService.getLectureList(categoryId, tags, keyword,
+			level, site, order, pageable);
 
 		return BaseResponse.success(SuccessCode.SELECT_SUCCESS, lectureListRes);
 	}

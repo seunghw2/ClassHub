@@ -70,9 +70,8 @@ public class TagRepositoryImpl implements TagRepositoryCustom {
 	public List<TagRes> findTagsByLectureIdFetchJoinLectureTag(int lectureId) {
 		return queryFactory
 			.select(Projections.constructor(TagRes.class, tag.tagId, tag.name))
-			.from(tag)
-			.join(lectureTag)
-			.on(lectureTag.tag.tagId.eq(tag.tagId))
+			.from(lectureTag)
+			.leftJoin(lectureTag.tag, tag).fetchJoin()
 			.where(lectureTag.lecture.lectureId.eq(lectureId))
 			.fetch();
 	}
